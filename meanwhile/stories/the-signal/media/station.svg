@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="A research station at night">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1026"/>
+      <stop offset="1" stop-color="#2a3a66"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#sky)"/>
+  <g fill="#ffffff" opacity="0.8">
+    <circle cx="80" cy="60" r="1.5"/><circle cx="190" cy="110" r="1"/><circle cx="300" cy="40" r="1.6"/>
+    <circle cx="420" cy="90" r="1"/><circle cx="530" cy="30" r="1.4"/><circle cx="640" cy="80" r="1.2"/>
+    <circle cx="730" cy="50" r="1.6"/><circle cx="370" cy="150" r="1"/><circle cx="600" cy="160" r="1"/>
+  </g>
+  <path d="M0 330 Q200 300 400 320 T800 310 V450 H0 Z" fill="#dfe7f2"/>
+  <g fill="#3b4256">
+    <rect x="180" y="250" width="220" height="80" rx="6"/>
+    <rect x="410" y="270" width="140" height="60" rx="6"/>
+    <rect x="560" y="285" width="60" height="45" rx="4"/>
+    <rect x="290" y="200" width="8" height="50"/>
+  </g>
+  <g fill="#f6c768">
+    <rect x="200" y="275" width="20" height="14"/><rect x="240" y="275" width="20" height="14"/>
+    <rect x="340" y="275" width="20" height="14"/><rect x="440" y="290" width="16" height="12"/>
+  </g>
+  <circle cx="294" cy="196" r="5" fill="#ff5a4e"/>
+</svg>
