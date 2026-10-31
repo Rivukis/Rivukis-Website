@@ -1,0 +1,1410 @@
+:root {
+  /* One look, light or dark: deep indigo, like the toy-brick games it's modeled on. */
+  color-scheme: dark;
+  --bg: #26236a;
+  --bg-deep: #1b1950;
+  --surface: #322f86;
+  --fg: #ffffff;
+  --muted: #c3c0f2;
+  --border: #4a46a8;
+  --accent: #ffc933;
+  --accent-fg: #2a1d00;
+  /* The board: a raised purple rim and walls (their side darker), and a sunken dark floor. */
+  --wall: #4f4bc0;
+  --wall-side: #2f2c86;
+  --board: #23205f;
+  --board-line: #2d2a74;
+  --ok: #6fe08e;
+  --warn: #ff6b6e;
+  --log-bg: #1c1d21;
+  --log-fg: #e4e4e7;
+  --log-muted: #9a9aa3;
+  --log-sim: #f0b35a;
+  --log-info: #7fb4e8;
+  --log-height: 30vh;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+/* Nothing may widen the page past the screen (a phone would zoom out to fit it). */
+html {
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 20%, var(--bg), var(--bg-deep)) fixed;
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+#app {
+  padding-bottom: calc(var(--log-height) + 24px);
+}
+
+/* With the action log collapsed, only its header bar covers the page. */
+#app.log-collapsed {
+  padding-bottom: 56px;
+}
+
+a {
+  color: var(--accent);
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px 16px;
+}
+
+.site-title {
+  color: var(--fg);
+  font-weight: 800;
+  font-size: 1.15rem;
+  text-decoration: none;
+}
+
+.coins {
+  font-weight: 800;
+  color: #ffd34d;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sound-toggle {
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.9rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.mode-toggle,
+.door-style {
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.mode-toggle[aria-pressed="true"],
+.door-style[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Testing mode's panel at the top of every screen. */
+.test-values {
+  width: calc(min(720px, 100%) - 32px);
+  margin: 12px auto 0;
+  padding: 10px 14px;
+  border: 1px dashed var(--accent);
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+.test-values[hidden] {
+  display: none;
+}
+.test-values summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.test-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin: 6px 0;
+}
+.test-label {
+  min-width: 110px;
+  color: var(--muted);
+}
+.speed-slider {
+  flex: 1 1 140px;
+  max-width: 280px;
+  accent-color: var(--accent);
+}
+.speed-value {
+  min-width: 90px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.door-preview {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+.door-preview:empty {
+  display: none;
+}
+.door-preview .board-frame {
+  pointer-events: none;
+}
+
+/* Rating a cleared level, in testing mode. */
+.rate {
+  margin: 4px 0 14px;
+}
+.rate-question {
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+.rate-buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+.rate-button {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 6px 2px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+.rate-button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+.rate-number {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.rate-name {
+  font-size: 0.65rem;
+  white-space: nowrap;
+}
+.rate-note {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.85rem;
+  resize: vertical;
+}
+
+.ratings {
+  margin: 24px 0 0;
+}
+.ratings-text {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--fg);
+  font: 0.75rem ui-monospace, monospace;
+}
+.ratings-copied {
+  align-self: center;
+  color: var(--ok);
+}
+
+.todo {
+  margin: 24px 0 40px;
+}
+.todo-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+/* Home */
+
+.intro h1 {
+  margin: 8px 0 4px;
+  font-size: 2rem;
+}
+
+.intro p {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+/* Packs */
+
+.pack-list {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pack-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.pack-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.pack-description {
+  grid-row: 2;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.pack-progress {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+  color: var(--muted);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.pack-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.pack-title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* A pack's levels: pages of 30 (5 across, 6 down) that scroll sideways. */
+
+.level-pages {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.level-pages::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each page is a card, narrower than the screen, so pages stay apart while
+   swiping between them. */
+.level-page {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 32px;
+}
+
+.page-title {
+  margin: 4px 0 8px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* A square 5 by 5 grid, even when a page has fewer levels. */
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+  width: min(100%, 340px);
+  aspect-ratio: 1;
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+  border: 1px solid color-mix(in srgb, var(--page) 40%, var(--border));
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.level-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border: 2px solid var(--page);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--page) 12%, var(--surface));
+  color: var(--fg);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.level-button.open {
+  background: color-mix(in srgb, var(--page) 35%, var(--surface));
+}
+
+.level-button.locked {
+  border-color: var(--border);
+  background: var(--bg);
+  color: var(--muted);
+}
+
+/* A locked level: a grey padlock behind its number, unlike a solved level's colored star. */
+.level-lock {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  height: 34%;
+  transform: translate(-50%, -20%);
+  border-radius: 4px;
+  background: var(--muted);
+  opacity: 0.35;
+}
+
+.level-lock::before {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 100%;
+  height: 70%;
+  border: 3px solid var(--muted);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+}
+
+.level-number {
+  position: relative;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+/* A solved level: a big, partly see-through star behind its number. */
+.level-star {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--page);
+  opacity: 0.45;
+}
+
+.testing-note,
+.level-stats {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.testing-note {
+  padding: 6px 12px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+.page-turns {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.shop {
+  margin: 24px 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.shop h2 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+
+.shop-counts {
+  margin: 0 0 12px;
+  white-space: pre-wrap;
+}
+
+.shop-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.shop-help {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Playing a level */
+
+.play {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The board, with room around it for a leaving block and its crumbs, which
+   are clipped there: nothing that flies out may make the page any wider or
+   taller, or a phone re-zooms and scrolls the page to fit it. The room
+   overlaps what's above and below without moving it, and lets touches
+   through. */
+.board-slot {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  overflow: clip;
+  padding-block: 72px;
+  margin-block: -72px;
+  pointer-events: none;
+}
+.board-slot > * {
+  pointer-events: auto;
+}
+
+.play-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.back {
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.level-title {
+  margin: 0;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.board-frame {
+  position: relative;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.board {
+  position: relative;
+}
+
+/* Under every square of the board, so together they draw its outline. A
+   rounded corner on a square rounds its shadow by that plus the rim's width. */
+.rim {
+  --round: 10px;
+  position: absolute;
+  background: var(--wall);
+  /* The rim's top. */
+  box-shadow: 0 0 0 var(--pad) var(--wall);
+}
+
+/* Under the rim's top: its darker side below it, and a soft shadow under the whole board. */
+.rim.rim-side {
+  box-shadow:
+    0 calc(var(--cell) * 0.12) 0 var(--pad) var(--wall-side),
+    0 calc(var(--cell) * 0.25) calc(var(--cell) * 0.3) var(--pad) rgb(0 0 0 / 0.35);
+}
+
+/* The floor sits below the walls: where a wall (or the rim) rises above or
+   left of a square, it casts a shadow onto it; below or right, a faint lit
+   lip. (BoardView marks which sides of each square meet a wall: edge-t,
+   edge-r, edge-b, edge-l.) */
+.floor {
+  --u: calc(var(--cell) / 100);
+  --t: 0 0 transparent;
+  --l: 0 0 transparent;
+  --b: 0 0 transparent;
+  --r: 0 0 transparent;
+  position: absolute;
+  background: var(--board);
+  box-shadow: inset 0 0 0 0.5px var(--board-line), var(--t), var(--l), var(--b), var(--r);
+}
+.floor.edge-t { --t: inset 0 calc(var(--u) * 14) calc(var(--u) * 10) calc(var(--u) * -8) rgb(0 0 0 / 0.5); }
+.floor.edge-l { --l: inset calc(var(--u) * 10) 0 calc(var(--u) * 8) calc(var(--u) * -6) rgb(0 0 0 / 0.35); }
+.floor.edge-b { --b: inset 0 calc(var(--u) * -3) 0 rgb(255 255 255 / 0.12); }
+.floor.edge-r { --r: inset calc(var(--u) * -3) 0 0 rgb(255 255 255 / 0.08); }
+
+/* Walls inside the board stand up like the blocks: a lit top and left edge
+   and a dark side below, on the sides that face the floor. */
+.wall {
+  --round: 6px;
+  --u: calc(var(--cell) / 100);
+  --t: 0 0 transparent;
+  --l: 0 0 transparent;
+  --b: 0 0 transparent;
+  --r: 0 0 transparent;
+  position: absolute;
+  background: var(--wall);
+  box-shadow: var(--t), var(--l), var(--b), var(--r);
+}
+.wall.edge-t { --t: inset 0 calc(var(--u) * 5) 0 rgb(255 255 255 / 0.14); }
+.wall.edge-l { --l: inset calc(var(--u) * 4) 0 0 rgb(255 255 255 / 0.08); }
+.wall.edge-b { --b: inset 0 calc(var(--u) * -12) 0 rgb(0 0 0 / 0.35); }
+.wall.edge-r { --r: inset calc(var(--u) * -5) 0 0 rgb(0 0 0 / 0.2); }
+
+/* Slab: the default. A slab of the door's color filling the rim, lit along
+   its top, with a white arrow pointing out of the board. */
+[data-doors="slab"] .door {
+  background: var(--fill);
+  box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.3), inset 0 -3px 0 rgb(0 0 0 / 0.25);
+}
+[data-doors="slab"] .door::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  -webkit-mask: var(--arrow) center / min(80%, 80cqh, 26px) no-repeat;
+  mask: var(--arrow) center / min(80%, 80cqh, 26px) no-repeat;
+}
+[data-doors="slab"] .door { container-type: size; }
+[data-doors="slab"] .door-top { --arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 9.5l4-4 4 4' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+[data-doors="slab"] .door-bottom { --arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6.5l4 4 4-4' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+[data-doors="slab"] .door-left { --arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M9.5 4l-4 4 4 4' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+[data-doors="slab"] .door-right { --arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6.5 4l4 4-4 4' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+
+/* Box: a box of the color filling the rim, cut off from the wall on either
+   side by a small gap (the page showing through), also between doors side
+   by side. */
+[data-doors="box"] .door {
+  /* A ramp down and out: bright where it meets the floor, darker outward, with a sunken edge. */
+  background: linear-gradient(var(--out), color-mix(in oklch, var(--fill) 80%, white), var(--fill) 45%, color-mix(in oklch, var(--fill) 65%, black));
+  outline: 1px solid rgb(0 0 0 / 0.25);
+  outline-offset: -1px;
+}
+[data-doors="box"] .door-top,
+[data-doors="box"] .door-bottom { box-shadow: -3px 0 0 var(--bg), 3px 0 0 var(--bg); }
+[data-doors="box"] .door-left,
+[data-doors="box"] .door-right { box-shadow: 0 -3px 0 var(--bg), 0 3px 0 var(--bg); }
+
+/* Doors sit on the rim, just outside their row of cells. There are a few
+   styles to compare in testing mode (`data-doors` on the board frame). */
+.door {
+  --dark: color-mix(in oklch, var(--fill) 25%, var(--wall));
+  position: absolute;
+  /* Above the board's rim, which it sits on. */
+  z-index: 1;
+}
+
+/* Fade: brightest at the board, fading into the rim's dark outside. */
+[data-doors="fade"] .door-top { background: linear-gradient(to top, var(--fill), var(--dark)); }
+[data-doors="fade"] .door-bottom { background: linear-gradient(to bottom, var(--fill), var(--dark)); }
+[data-doors="fade"] .door-left { background: linear-gradient(to left, var(--fill), var(--dark)); }
+[data-doors="fade"] .door-right { background: linear-gradient(to right, var(--fill), var(--dark)); }
+
+/* Opening: the wall is cut away, so the floor runs out through it, tinted
+   with the door's color, between two colored posts and over a colored
+   threshold where it meets the board. */
+[data-doors="opening"] .door {
+  --tint: color-mix(in oklch, var(--fill) 70%, var(--board));
+  --post: 4px;
+  border: 0 solid var(--fill);
+}
+[data-doors="opening"] .door-top { background: linear-gradient(to top, var(--tint), var(--dark)); border-width: 0 var(--post) var(--post); }
+[data-doors="opening"] .door-bottom { background: linear-gradient(to bottom, var(--tint), var(--dark)); border-width: var(--post) var(--post) 0; }
+[data-doors="opening"] .door-left { background: linear-gradient(to left, var(--tint), var(--dark)); border-width: var(--post) var(--post) var(--post) 0; }
+[data-doors="opening"] .door-right { background: linear-gradient(to right, var(--tint), var(--dark)); border-width: var(--post) 0 var(--post) var(--post); }
+
+/* Inset: a colored gate set into the wall, like a raised bar. */
+[data-doors="inset"] .door::before {
+  content: "";
+  position: absolute;
+  inset: 22% 0;
+  border-radius: 999px;
+  background: var(--fill);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.4), inset 0 -2px 0 rgb(0 0 0 / 0.25), 0 1px 3px rgb(0 0 0 / 0.35);
+}
+[data-doors="inset"] .door-left::before,
+[data-doors="inset"] .door-right::before {
+  inset: 0 22%;
+}
+
+/* Arrows: a colored bar with chevrons pointing out of the board, in a
+   lighter shade of the same color (drawn through a chevron-shaped mask). */
+[data-doors="arrows"] .door {
+  background: var(--fill);
+  border-radius: 2px;
+}
+[data-doors="arrows"] .door::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklch, var(--fill) 45%, white);
+  -webkit-mask-size: 12px 12px;
+  mask-size: 12px 12px;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+[data-doors="arrows"] .door-top::after { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 8l3-3 3 3' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 8l3-3 3 3' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E"); }
+[data-doors="arrows"] .door-bottom::after { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4l3 3 3-3' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4l3 3 3-3' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E"); }
+[data-doors="arrows"] .door-left::after { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M8 3l-3 3 3 3' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M8 3l-3 3 3 3' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E"); }
+[data-doors="arrows"] .door-right::after { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M4 3l3 3-3 3' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M4 3l3 3-3 3' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E"); }
+
+/* The direction out of the board, and along the door, for the styles below. */
+.door-top { --out: to top; --along: to right; }
+.door-bottom { --out: to bottom; --along: to right; }
+.door-left { --out: to left; --along: to bottom; }
+.door-right { --out: to right; --along: to bottom; }
+
+/* Solid: a plain flat bar of the color. */
+[data-doors="solid"] .door { background: var(--fill); }
+
+/* Glow: a bright bar whose light spills onto the dark rim. */
+[data-doors="glow"] .door {
+  background: linear-gradient(var(--out), color-mix(in oklch, var(--fill) 60%, white), var(--fill));
+  border-radius: 3px;
+  box-shadow: 0 0 8px 1px var(--fill);
+}
+
+/* Stripes: diagonal stripes, like a painted gate. */
+[data-doors="stripes"] .door {
+  background: repeating-linear-gradient(45deg, var(--fill) 0 5px, var(--dark) 5px 9px);
+  border-radius: 2px;
+}
+
+/* Bars: a gate of colored bars across the gap, over a dark opening. */
+[data-doors="bars"] .door {
+  background: repeating-linear-gradient(var(--along), var(--fill) 0 3px, transparent 3px 8px), var(--dark);
+  border: 0 solid var(--fill);
+}
+[data-doors="bars"] .door-top { border-bottom-width: 3px; }
+[data-doors="bars"] .door-bottom { border-top-width: 3px; }
+[data-doors="bars"] .door-left { border-right-width: 3px; }
+[data-doors="bars"] .door-right { border-left-width: 3px; }
+
+/* Rail: the rim stays dark, with a thin colored line where it meets the board. */
+[data-doors="rail"] .door { background: linear-gradient(var(--out), var(--fill) 0 4px, transparent 4px); }
+
+/* Pill: a rounded tab of the color, outlined, standing a little out from the rim. */
+[data-doors="pill"] .door::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  background: var(--fill);
+  border: 2px solid color-mix(in oklch, var(--fill) 40%, black);
+}
+
+/* Dots: a row of colored lights along the gap. */
+[data-doors="dots"] .door {
+  background: radial-gradient(circle, var(--fill) 0 3px, transparent 3.5px) center / 10px 10px, var(--dark);
+  border-radius: 3px;
+}
+
+/* Notch (the default): a bar of the color, with the half next to the board
+   cut away to plain floor, as if the block's way out were notched into the
+   wall. */
+[data-doors="notch"] .door { background: linear-gradient(var(--out), var(--board) 0 var(--notch, 50%), var(--fill) var(--notch, 50%)); }
+
+/* A frozen door: covered in ice (pale, frosty stripes over the door), with
+   the number of blocks still to leave before it thaws. The ice melts away
+   when it gets to 0 (THAW_MS in boardView.ts). */
+.door .ice {
+  position: absolute;
+  inset: -1px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(135deg, rgb(255 255 255 / 0.5) 0 2px, transparent 2px 7px),
+    rgb(205 238 255 / 0.25);
+  box-shadow: 0 0 0 1.5px rgb(235 248 255 / 0.95), 0 0 8px rgb(150 215 255 / 0.8);
+  pointer-events: none;
+}
+.door .ice-count {
+  display: grid;
+  place-items: center;
+  min-width: calc(var(--cell, 40px) * 0.42);
+  height: calc(var(--cell, 40px) * 0.42);
+  padding: 0 3px;
+  border-radius: 999px;
+  background: #eaf8ff;
+  /* Ringed in the door's color, which the ice dims. */
+  border: 3px solid var(--fill);
+  color: #155b8a;
+  font-size: calc(var(--cell, 40px) * 0.28);
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+}
+.door.thawing .ice {
+  animation: thaw 450ms ease-in forwards;
+}
+@keyframes thaw {
+  to { opacity: 0; transform: scale(1.25); filter: blur(2px); }
+}
+
+/* A lid over covered blocks: a raised panel in the walls' color, hiding
+   what's under it, with how many blocks still have to leave before it
+   lifts off (LID_MS in boardView.ts). */
+.lid {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  border-radius: calc(var(--cell) * 0.14);
+  background:
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.07) 0 6px, transparent 6px 12px),
+    linear-gradient(color-mix(in oklch, var(--wall) 85%, white), var(--wall));
+  box-shadow:
+    inset 0 2px 0 rgb(255 255 255 / 0.25),
+    inset 0 -3px 0 var(--wall-side),
+    0 calc(var(--cell) * 0.08) calc(var(--cell) * 0.16) rgb(0 0 0 / 0.45);
+  touch-action: none;
+}
+.lid-count {
+  display: grid;
+  place-items: center;
+  min-width: calc(var(--cell) * 0.6);
+  height: calc(var(--cell) * 0.6);
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--wall-side);
+  border: 2px solid rgb(255 255 255 / 0.75);
+  color: #fff;
+  font-size: calc(var(--cell) * 0.36);
+  font-weight: 800;
+  line-height: 1;
+}
+.lid.opening {
+  pointer-events: none;
+  animation: lid-off 500ms ease-in forwards;
+}
+@keyframes lid-off {
+  40% { transform: translateY(calc(var(--cell) * -0.15)) scale(1.04); opacity: 1; }
+  to { transform: translateY(calc(var(--cell) * -0.4)) scale(1.1); opacity: 0; }
+}
+
+/* A one-way block's arrow, both ways along the way it moves. */
+.brick .one-way,
+.brick .one-way-edge {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.brick .one-way { stroke: #fff; stroke-width: 0.075; }
+.brick .one-way-edge { stroke: rgb(0 0 0 / 0.45); stroke-width: 0.14; }
+
+/* A starred block's star, and a starred door's: gold, edged dark. */
+.brick .star {
+  fill: #ffd84a;
+  stroke: rgb(70 40 0 / 0.7);
+  stroke-width: 0.045;
+  stroke-linejoin: round;
+}
+.door-star.fading {
+  transition: opacity 450ms, scale 450ms;
+  opacity: 0;
+  scale: 0.4;
+}
+.door-star {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffd84a;
+  font-size: calc(var(--cell, 40px) * 0.42);
+  line-height: 1;
+  text-shadow: 0 0 2px rgb(70 40 0), 0 1px 2px rgb(0 0 0 / 0.6);
+  pointer-events: none;
+}
+
+/* A floor factory: an orange frame on the floor, under the blocks (it
+   shows between those on it), striped, split down the middle into two
+   sliding doors. It lights up while a held block is off it (letting go
+   would open it). When it opens, it's over its blocks while the doors
+   slide apart (OPEN_MS in boardView.ts), showing them sunk below the
+   floor, small and dark; then they rise up into their places (RISE_MS). */
+.factory {
+  --factory: #ff9419;
+  position: absolute;
+  box-sizing: border-box;
+  border: 3px dashed var(--factory);
+  border-radius: calc(var(--cell) * 0.12);
+  overflow: hidden;
+  pointer-events: none;
+}
+.factory-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: repeating-linear-gradient(45deg, var(--factory) 0 5px, var(--board) 5px 13px);
+  transition: translate 350ms ease-in;
+}
+.factory-door-left { left: 0; box-shadow: inset -2px 0 0 rgb(0 0 0 / 0.5); }
+.factory-door-right { right: 0; box-shadow: inset 2px 0 0 rgb(0 0 0 / 0.5); }
+.factory.opening .factory-door-left { translate: -100% 0; }
+.factory.opening .factory-door-right { translate: 100% 0; }
+.factory.ready {
+  filter: brightness(1.45) saturate(1.2);
+  box-shadow: 0 0 calc(var(--cell) * 0.25) rgb(255 170 60 / 0.75);
+  transition: filter 120ms, box-shadow 120ms;
+}
+.factory.over { z-index: 1; }
+.factory.opening {
+  animation: factory-open 300ms ease-out 550ms forwards;
+}
+@keyframes factory-open {
+  to { opacity: 0; }
+}
+.block.rising {
+  transform-origin: calc(var(--w) / 2) calc(var(--h) / 2);
+  animation: rise 850ms linear;
+}
+@keyframes rise {
+  0%, 41% { scale: 0.8; filter: brightness(0.3) drop-shadow(0 0 0 transparent); animation-timing-function: cubic-bezier(.2,.8,.3,1.2); }
+  80% { filter: brightness(1.05) drop-shadow(0 calc(var(--cell) * 0.08) calc(var(--cell) * 0.1) rgb(0 0 0 / 0.45)); }
+  100% { scale: 1; filter: brightness(1); }
+}
+
+/* A wall factory's tool: a door on the rim, outlined in its next block's
+   color (--next), of two folding leaves that crunch up toward its ends
+   (like an accordion) to let a block out (DOORS_MS), and unfold shut
+   behind it; with how many blocks it has left. While a block is held, the
+   spot its next block comes in is outlined in that block's color, and
+   lights up where letting go would let it in. It fades when it's empty. */
+.injector {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  background: #15132f;
+  box-shadow: inset 0 0 0 2px var(--next, #ffd84a), 0 0 0 1px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+}
+.injector-leaf {
+  position: absolute;
+  inset: 2px;
+  background: repeating-linear-gradient(var(--along), #4b4790 0 3px, #2b2850 3px 6px, #6c68b8 6px 7px);
+  transition: scale 120ms ease-in;
+}
+.injector-top, .injector-bottom { --along: to right; }
+.injector-left, .injector-right { --along: to bottom; }
+.injector-top .injector-leaf, .injector-bottom .injector-leaf { width: calc(50% - 2px); }
+.injector-left .injector-leaf, .injector-right .injector-leaf { height: calc(50% - 2px); }
+.injector-top .injector-leaf-end, .injector-bottom .injector-leaf-end { left: auto; transform-origin: right; }
+.injector-top .injector-leaf-start, .injector-bottom .injector-leaf-start { right: auto; transform-origin: left; }
+.injector-left .injector-leaf-end, .injector-right .injector-leaf-end { top: auto; transform-origin: bottom; }
+.injector-left .injector-leaf-start, .injector-right .injector-leaf-start { bottom: auto; transform-origin: top; }
+.injector-top.open .injector-leaf, .injector-bottom.open .injector-leaf { scale: 0.12 1; }
+.injector-left.open .injector-leaf, .injector-right.open .injector-leaf { scale: 1 0.12; }
+.injector.open .injector-count { opacity: 0; }
+.injector-count {
+  position: relative;
+  transition: opacity 120ms;
+  display: grid;
+  place-items: center;
+  min-width: calc(var(--cell) * 0.42);
+  height: calc(var(--cell) * 0.42);
+  border-radius: 999px;
+  background: var(--next, #ffd84a);
+  color: #fff;
+  text-shadow: 0 1px 1px rgb(0 0 0 / 0.5);
+  font-size: calc(var(--cell) * 0.28);
+  font-weight: 800;
+  line-height: 1;
+}
+.injector.spent {
+  animation: factory-open 500ms ease-out forwards;
+}
+.injector-next {
+  display: none;
+  pointer-events: none;
+}
+.holding .injector-next {
+  display: block;
+}
+.injector-next > div {
+  position: absolute;
+  box-sizing: border-box;
+  border: 3px dashed var(--fill);
+  border-radius: calc(var(--cell) * 0.12);
+  background: color-mix(in srgb, var(--fill) 30%, var(--board));
+  transition: background 120ms, box-shadow 120ms;
+}
+.injector-next.ready > div {
+  border-style: solid;
+  background: color-mix(in srgb, var(--fill) 55%, var(--board));
+  box-shadow: 0 0 calc(var(--cell) * 0.2) var(--fill);
+}
+/* A wall factory's block comes out of the tool: it slides in from beyond
+   the wall, cut off where the wall is. */
+/* (Its box is its full size while it comes, for the clip; only its squares take touches.) */
+.block.arriving { animation: 500ms ease-out 120ms backwards; width: var(--w); height: var(--h); pointer-events: none; }
+.block.arriving .block-cell { pointer-events: auto; }
+.block.arriving-top { animation-name: out-of-top; }
+.block.arriving-bottom { animation-name: out-of-bottom; }
+.block.arriving-left { animation-name: out-of-left; }
+.block.arriving-right { animation-name: out-of-right; }
+/* (The clip goes to inset(0), not none, so it slides along with the block:
+   none can't be animated to, and would flip halfway.) */
+@keyframes out-of-top { from { translate: 0 calc(var(--h) * -1); clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
+@keyframes out-of-bottom { from { translate: 0 var(--h); clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+@keyframes out-of-left { from { translate: calc(var(--w) * -1) 0; clip-path: inset(0 0 0 100%); } to { clip-path: inset(0); } }
+@keyframes out-of-right { from { translate: var(--w) 0; clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+
+/* Angled notch (the default): Notch, with its ends cut at 45 degrees, so
+   it's as wide as its squares where it meets the board and narrower by the
+   rim's depth at each end outside: two doors meeting at a corner of the
+   board line up with the usual gap between them. Drawn on ::before, so
+   the cut doesn't clip what's on the door (ice, a star). */
+[data-doors="angled"] .door::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--out), var(--board) 0 var(--notch, 50%), var(--fill) var(--notch, 50%));
+}
+[data-doors="angled"] .door-top::before { clip-path: polygon(var(--pad) 0, calc(100% - var(--pad)) 0, 100% 100%, 0 100%); }
+[data-doors="angled"] .door-bottom::before { clip-path: polygon(0 0, 100% 0, calc(100% - var(--pad)) 100%, var(--pad) 100%); }
+[data-doors="angled"] .door-left::before { clip-path: polygon(0 var(--pad), 100% 0, 100% 100%, 0 calc(100% - var(--pad))); }
+[data-doors="angled"] .door-right::before { clip-path: polygon(0 0, 100% var(--pad), 100% calc(100% - var(--pad)), 0 100%); }
+
+/* Crumbs breaking off a block as it goes out through its door. */
+.crumb {
+  position: absolute;
+  z-index: 3;
+  border-radius: 2px;
+  background: var(--fill);
+  box-shadow: inset 0 -2px 0 color-mix(in oklch, var(--fill) 60%, black);
+  pointer-events: none;
+}
+
+/* Once a color's last block has left, its doors fade away. */
+.door.closing {
+  transition: opacity 300ms;
+  opacity: 0;
+}
+
+.block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+  /* Settling on whole cells after a drop. */
+  transition: transform 120ms ease-out, opacity 250ms;
+  touch-action: none;
+}
+
+/* While dragged, a block follows the pointer exactly, on its own layer. */
+.block.dragging {
+  cursor: grabbing;
+  z-index: 2;
+  transition: none;
+  will-change: transform;
+}
+
+/* Its shadow on the floor (drawn in brick.ts). */
+.brick-shadow { fill: rgb(0 0 0 / 0.35); }
+
+/* Held: a glow lights up around the block's outline, solid right at its
+   edge and fading away from it (bands drawn in brick.ts, shown only now). */
+.brick-glow {
+  display: none;
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+}
+.dragging .brick-glow { display: inline; }
+
+.block.exiting {
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Sliding out, a frame at a time (see BoardView.leave). */
+.block.leaving {
+  transition: none;
+  pointer-events: none;
+}
+
+.block.smashed {
+  transition: transform 300ms, opacity 300ms, scale 300ms;
+  opacity: 0;
+  scale: 0.4;
+  pointer-events: none;
+}
+
+.block-cell {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+/* A block is drawn as one picture of a toy brick (brick.ts): its side in a
+   darker shade, its top face lit along the top and left, and its studs. It's
+   drawn a little in from its squares (SKIN in board.ts), and its hitbox is
+   the same, so blocks rub against each other rather than float apart. */
+.brick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.brick-side { fill: color-mix(in oklch, var(--fill) 70%, black); }
+.brick-shine { fill: color-mix(in oklch, var(--fill) 72%, white); }
+.brick-face { fill: var(--fill); }
+.stud { fill: var(--fill); }
+.stud-edge { fill: color-mix(in oklch, var(--fill) 68%, black); }
+
+.boosters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.booster {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.booster.armed {
+  border-color: var(--warn);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--warn) 35%, transparent);
+}
+
+.booster-count {
+  min-width: 1.6em;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.hint {
+  min-height: 1.5em;
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  z-index: 5;
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.overlay-card {
+  max-width: 320px;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.2);
+  text-align: center;
+}
+
+.overlay-card h2 {
+  margin: 0 0 4px;
+}
+
+.overlay-won h2 {
+  color: var(--ok);
+}
+
+.overlay-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* Log panel */
+
+.log-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: var(--log-height);
+  background: var(--log-bg);
+  color: var(--log-fg);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  box-shadow: 0 -2px 12px rgb(0 0 0 / 0.25);
+  z-index: 10;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 16px;
+  border-bottom: 1px solid #2e3038;
+}
+
+.log-header button {
+  border: 0;
+  background: none;
+  color: var(--log-fg);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.log-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.log-clear {
+  font-weight: 400 !important;
+  color: var(--log-muted) !important;
+}
+
+.log-hide {
+  padding: 2px 10px !important;
+  border: 1px solid #3a3d47 !important;
+  border-radius: 999px;
+}
+
+.log-list {
+  margin: 0;
+  padding: 6px 16px 10px;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.log-panel.collapsed .log-list {
+  display: none;
+}
+
+.log-entry {
+  display: flex;
+  gap: 10px;
+  padding: 2px 0;
+}
+
+.log-entry time,
+.log-empty {
+  color: var(--log-muted);
+}
+
+.log-tag {
+  flex: none;
+  width: 9ch;
+  font-weight: 700;
+}
+
+.log-simulated .log-tag {
+  color: var(--log-sim);
+}
+
+.log-info .log-tag {
+  color: var(--log-info);
+}
+
+.log-message {
+  overflow-wrap: anywhere;
+}
+
+/* Keys and Gates: a gate is bars in its color across its squares, set in
+   the wall, with a keyhole; it opens by sliding its bars away into the
+   walls at its ends (THAW_MS in boardView.ts). A key block has a key on
+   it, white with a dark edge. */
+.gate {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  border-radius: calc(var(--cell) * 0.1);
+  border: 2px solid color-mix(in oklch, var(--fill) 55%, black);
+  background:
+    repeating-linear-gradient(var(--bars), transparent 0 calc(var(--cell) * 0.14), color-mix(in oklch, var(--fill) 60%, black) calc(var(--cell) * 0.14) calc(var(--cell) * 0.2)),
+    linear-gradient(var(--bars), color-mix(in oklch, var(--fill) 80%, white), var(--fill));
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.25), 0 2px 4px rgb(0 0 0 / 0.4);
+  display: grid;
+  place-items: center;
+  transition: scale 450ms ease-in, opacity 450ms ease-in;
+}
+.gate-across { --bars: to right; transform-origin: center; }
+.gate-down { --bars: to bottom; transform-origin: center; }
+.gate-keyhole {
+  width: calc(var(--cell) * 0.26);
+  height: calc(var(--cell) * 0.36);
+  background: #15132f;
+  clip-path: polygon(50% 0, 78% 12%, 85% 38%, 66% 55%, 80% 100%, 20% 100%, 34% 55%, 15% 38%, 22% 12%);
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.6);
+}
+.gate.opening.gate-across { scale: 0 1; opacity: 0; }
+.gate.opening.gate-down { scale: 1 0; opacity: 0; }
+.key-mark .key-edge { stroke: rgb(0 0 0 / 0.5); stroke-width: 0.15; stroke-linecap: round; }
+.key-mark .key-metal { stroke: #fff6c8; stroke-width: 0.08; stroke-linecap: round; }
+
+/* Gem Locks: gems, each its own cut and color, with a darker edge,
+   facets and a glint; a carried gem sits in a pale setting on its block.
+   A chained block has chains across it, corner to corner, and a padlock
+   with its gem set in it and how many blocks with that gem are still to
+   leave; when the last has left, a gem flies to it (GEM_MS) and the
+   chains and padlock fall away. */
+.gem-edge { fill: rgb(0 0 0 / 0.45); }
+.gem-cut { stroke: rgb(0 0 0 / 0.35); stroke-width: 0.02; }
+.gem-facets { fill: rgb(255 255 255 / 0.18); stroke: rgb(255 255 255 / 0.55); stroke-width: 0.02; }
+.gem-glint { fill: rgb(255 255 255 / 0.9); }
+.gem-setting > circle { fill: rgb(255 255 255 / 0.85); stroke: rgb(0 0 0 / 0.3); stroke-width: 0.03; }
+.chains .chain-edge { stroke: rgb(20 20 30 / 0.55); stroke-width: 0.17; stroke-linecap: round; fill: none; }
+.chains .chain-links { stroke: #c9cbd6; stroke-width: 0.1; stroke-dasharray: 0.12 0.06; stroke-linecap: round; fill: none; }
+.padlock-shackle { fill: none; stroke: #9ea2b3; stroke-width: 0.08; }
+.padlock-body { fill: #e6b931; stroke: #8a6510; stroke-width: 0.04; }
+.lock-count {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  min-width: calc(var(--cell) * 0.3);
+  height: calc(var(--cell) * 0.3);
+  border-radius: 999px;
+  background: #fff;
+  color: #2b2850;
+  font-size: calc(var(--cell) * 0.2);
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+  pointer-events: none;
+}
+.block .chains, .block .padlock, .block .lock-count { transition: opacity 400ms ease-in, translate 400ms ease-in; }
+.block.unchained .chains, .block.unchained .padlock, .block.unchained .lock-count { opacity: 0; translate: 0 calc(var(--cell) * 0.3); }
+.gem-flying {
+  position: absolute;
+  z-index: 4;
+  margin: calc(var(--cell) * -0.3) 0 0 calc(var(--cell) * -0.3);
+  pointer-events: none;
+  filter: drop-shadow(0 0 calc(var(--cell) * 0.1) #fff);
+}
+
+/* Linked blocks: a chain link of two rings across where they meet; it
+   snaps (fades) when one of them leaves. */
+.link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 0;
+  height: 0;
+  margin: var(--at-y) 0 0 var(--at-x);
+  pointer-events: none;
+  transition: opacity 450ms, scale 450ms;
+}
+.link-ring {
+  position: absolute;
+  box-sizing: border-box;
+  width: calc(var(--cell) * 0.44);
+  height: calc(var(--cell) * 0.26);
+  border: calc(var(--cell) * 0.07) solid #e3e5ee;
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.7), inset 0 1px 1px rgb(0 0 0 / 0.5);
+}
+.link-across .link-ring:first-child { left: calc(var(--cell) * -0.38); top: calc(var(--cell) * -0.13); }
+.link-across .link-ring:last-child { left: calc(var(--cell) * -0.06); top: calc(var(--cell) * -0.13); }
+.link-down .link-ring { width: calc(var(--cell) * 0.26); height: calc(var(--cell) * 0.44); }
+.link-down .link-ring:first-child { left: calc(var(--cell) * -0.13); top: calc(var(--cell) * -0.38); }
+.link-down .link-ring:last-child { left: calc(var(--cell) * -0.13); top: calc(var(--cell) * -0.06); }
+.link.breaking { opacity: 0; scale: 1.6; }
+
+/* Layered blocks: the inner block, its own color, set in the outer layer
+   with a dark rim; when the outer layer comes off at its door, it
+   crumbles out through it and the inner block flashes. Two-color blocks:
+   the second color is the bottom-right half, corner to corner. */
+.outer-layer { fill: var(--fill); filter: drop-shadow(0 0.02px 0.03px rgb(0 0 0 / 0.5)); }
+.inner-rim { fill: none; stroke: rgb(0 0 0 / 0.4); stroke-width: 0.04; }
+.block.stripped { animation: stripped 500ms ease-out; }
+@keyframes stripped {
+  from { filter: brightness(1.8); }
+}

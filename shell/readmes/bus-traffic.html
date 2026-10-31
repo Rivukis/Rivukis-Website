@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bus Traffic readme</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23111318%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27sans-serif%27 font-size=%2716%27 font-weight=%27700%27 fill=%27white%27 text-anchor=%27middle%27%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../home.css?v=b82cc3cd0161bf856693e7d96a929ee424ba4d84">
+  <script src="../../shell/bar.js?v=b82cc3cd0161bf856693e7d96a929ee424ba4d84" defer></script>
+</head>
+<body>
+  <main>
+    <nav class="readme-nav">
+      <a href="../../">← All websites</a>
+      <a class="visit" href="../../bus-traffic/">Visit Bus Traffic</a>
+    </nav>
+    <article class="readme">
+<h1>Bus Traffic</h1>
+<p>A parking-jam puzzle, a take on the mobile game <em>Bus Traffic Fever!</em>: tap
+buses out of a jammed lot and into the pickup spots, so every passenger in
+the line gets on a bus of their color.</p>
+<p>Live at <a href="https://rivukis.github.io/Rivukis-Website/bus-traffic/" target="_blank" rel="noopener">https://rivukis.github.io/Rivukis-Website/bus-traffic/</a>.</p>
+<h2>How to play</h2>
+<ul>
+<li><strong>The lot</strong> is up to 22 squares wide and 26 tall (smaller on easier
+levels), full of vehicles in up to 10 colors, each with an arrow on its roof. They come in three sizes, all 2
+squares wide: <strong>small</strong> (3 by 2) seats 4, <strong>medium</strong> (4 by 2) seats 6,
+and <strong>large</strong> (5 by 2) seats 10.</li>
+<li><strong>Tap a vehicle</strong> and it drives the way its arrow points. If both lanes
+in front of it are clear all the way to the edge, it drives out of the
+lot, round the road at its edge and up into a pickup spot. If anything is in
+either lane, it drives up to it, bumps it, honks and backs up.</li>
+<li><strong>There are 4 pickup spots</strong>, in a row between the lot and the
+loop, filled from left to right: a bus takes the leftmost free one. Each
+bus&#39;s count of seats filled is shown under it.</li>
+<li><strong>The loop</strong> is a ring of places above the pickup spots, 20 to 30 deep
+depending on the level, that goes round all the time, everyone in it
+walking round together. It has one exit, a turn off the middle of its
+bottom that opens into a plaza round the pickup spots. Whoever reaches
+the exit gets off if a bus of their color is waiting (the leftmost one,
+if there are several), walks down into the plaza and along it to their
+bus and gets in, and a seat on its roof fills. Anyone else
+rides on round, and gets another chance next time they come by.</li>
+<li><strong>The line</strong> waits on a path above the loop, coming out of a tunnel on
+the right; at the front, past yellow and black stripes, the path turns
+down into the loop&#39;s entry at the top left. The place someone left goes
+round empty until it comes to the entry, and the front of the line steps
+into it as it passes, the line moves up, and the next person
+walks out of the tunnel. The number on the tunnel is how many are still
+inside it, not yet in sight.</li>
+<li><strong>Hold the 3x button</strong>, left of the pickup spots, to make the loop go
+round three times as fast.</li>
+<li><strong>A full vehicle leaves</strong> once its last passenger is in, speeding up as
+it drives off, and only then is its pickup spot free for the next one.
+Passengers board one at a time, as each reaches the exit.</li>
+<li><strong>If every pickup spot holds a bus no one in the loop can take</strong> (counting
+anyone about to step in from the line), you&#39;re stuck:
+the level is lost. So the order you tap the buses in matters: a bus whose
+passengers are still back in the line takes up a pickup spot until they reach
+the loop.</li>
+<li><strong>Clear the level</strong> by getting everyone on a bus.</li>
+<li>Every level has been checked by a solver: it can always be won.</li>
+</ul>
+<h2>Boosters</h2>
+<p>You start with one of each, and can buy more with coins from the home
+page.</p>
+<ul>
+<li><strong>🚁 Lift</strong>: tap it, then tap any bus: it&#39;s lifted straight to a pickup spot,
+whatever&#39;s in its way.</li>
+<li><strong>➕ Extra pickup spot</strong>: one more pickup spot for this level.</li>
+</ul>
+<p>When you&#39;re stuck, you can also watch an ad for one more pickup spot. (Ads and
+buying coins aren&#39;t real yet: they&#39;re shown in the action log at the
+bottom of the page, and nothing is charged.)</p>
+<p>You earn 20 coins for clearing a level the first time, 5 for clearing it
+again.</p>
+<h2>Packs and levels</h2>
+<p>There are five <strong>Classic</strong> packs of 10 levels, one for each difficulty,
+laid out like the level packs in <em>Flow Free</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Pack</th>
+<th>Lot</th>
+<th>Colors</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Beginner</td>
+<td>14 by 16</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Easy</td>
+<td>18 by 20</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>22 by 26</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Hard</td>
+<td>22 by 26</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Very hard</td>
+<td>22 by 26</td>
+<td>10</td>
+</tr>
+</tbody></table>
+<p>The harder the pack, the deeper the chains of cars blocking cars, the
+fewer cars that can leave at the start, and the more wrong taps there are
+to avoid. Within a pack, levels get a little harder as you go.</p>
+<p>How hard a level is is measured by how hard the right taps are to find:
+at each step, how many buses could drive out and how many of those would
+still let you win.</p>
+<p>Pick a pack, and its levels are shown in pages of 25. A solved level shows a
+star; a locked one a padlock. Three levels you haven&#39;t solved are always
+open in each pack, so you can skip a hard one and come back to it. Your
+progress is saved in your browser.</p>
+<p><strong>Testing mode.</strong> While the game is being tested, the button at the top
+switches between testing mode and normal mode, and remembers your choice.
+In testing mode every level is open, each level shows its numbers (size,
+buses, colors, how deep the loop is, choices: how hard the right taps are to find, traps: taps
+that would lose, effort: how many positions the solver looked at, free:
+cars that can leave at the start, depth: how deep the chains go, keystone:
+the most cars one car holds up, and fan-in: the most cars in one car&#39;s
+way), a
+<strong>💡 Solve</strong> button plays the solution from wherever you are (tap it again
+to take over), and after clearing a level you can rate how hard it was.
+The ratings are listed on the home page to copy and send back, to tune
+the levels. A <strong>Testing</strong> panel at the top of every screen has settings to
+try: turning the lot&#39;s grid lines off and on, and sliders for how fast
+tapped vehicles drive, how fast passengers walk, how fast the loop goes
+round, how many times faster it goes while the fast button is held (2x
+to 10x), and how fast a full vehicle drives off (remembered in your browser, each with a button back
+to the default).</p>
+<p>The speaker button at the top turns sound off and on.</p>
+<h2>Not built yet</h2>
+<ul>
+<li>Special vehicles and lot features for later levels: underground garages
+that lift up to reveal more cars once nothing is parked on them, gates
+with a line of cars that moves up as its front car leaves, ambulances
+and fire trucks with their own passengers and a deadline, cars that turn
+around (or a quarter turn) each time a car leaves, and conveyor belts
+carrying cars round the lot.</li>
+<li>Lives and a daily reward.</li>
+<li>A way to tell colors apart for colorblind players.</li>
+</ul>
+
+    </article>
+  </main>
+</body>
+</html>

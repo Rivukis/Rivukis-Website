@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meanwhile readme</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23111318%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27sans-serif%27 font-size=%2716%27 font-weight=%27700%27 fill=%27white%27 text-anchor=%27middle%27%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../home.css?v=b82cc3cd0161bf856693e7d96a929ee424ba4d84">
+  <script src="../../shell/bar.js?v=b82cc3cd0161bf856693e7d96a929ee424ba4d84" defer></script>
+</head>
+<body>
+  <main>
+    <nav class="readme-nav">
+      <a href="../../">← All websites</a>
+      <a class="visit" href="../../meanwhile/">Visit Meanwhile</a>
+    </nav>
+    <article class="readme">
+<h1>Meanwhile</h1>
+<p>A choose-your-own-adventure where choices take real time. Each choice in a
+story has a wait: choose to wait an hour in the story, and the next part
+unlocks after an hour of real time.</p>
+<p>Live at <a href="https://rivukis.github.io/Rivukis-Website/meanwhile/" target="_blank" rel="noopener">https://rivukis.github.io/Rivukis-Website/meanwhile/</a>.</p>
+<h2>How it works</h2>
+<p>A story is a set of parts joined by choices, and every choice has its own
+wait, chosen by the author. &quot;Wait by the radio to see if it repeats&quot; might
+unlock in an hour; &quot;Walk to the other side of the complex&quot; might take 15
+minutes, and the next part tells you what happened on the way.</p>
+<p>Each part can have text, an image or short animation to look at, and sound
+to listen to.</p>
+<h2>For readers</h2>
+<ul>
+<li><strong>Discover</strong> lists every published story. Search by title, author or
+description, then add a free story to your library, or buy a paid one.</li>
+<li><strong>Your library</strong> shows the stories you&#39;ve added and where you are in
+each: not started, waiting (with a countdown), ready, or finished.</li>
+<li><strong>Reading:</strong> read a part, pick a choice, and wait. Your place is saved,
+even mid-wait, so you can close the page and come back when the next part
+is ready.</li>
+<li><strong>Your map</strong> shows only the parts of the story you&#39;ve already read, and
+where you are, so you can choose a different path next time. <strong>Show read
+markers</strong> marks the choices you&#39;ve already taken. Both start hidden each
+time you open a story.</li>
+<li><strong>Sound</strong> plays on its own when a part has it. The Sound button at the
+top turns it off and on, and is remembered. Each sound has a written
+caption too.</li>
+<li><strong>Start over</strong> whenever you like. What you&#39;ve read is remembered, so the
+map and read markers help you find the paths you haven&#39;t taken.</li>
+<li>If an author unpublishes a story you already have, you keep it.</li>
+</ul>
+<h2>For authors</h2>
+<p>Sign in and open <strong>Write</strong> to see your stories. Start a new one, open a
+story file, or open the example story to see how a finished one fits
+together. The editor walks through four steps:</p>
+<ol>
+<li><strong>Story:</strong> the title, author, description and cover.</li>
+<li><strong>Media:</strong> upload sounds, images and animations. Each file gets an id,
+and can be used on as many parts as you like.</li>
+<li><strong>Parts</strong>, one at a time: the text, an optional heading, a visual and a
+sound picked from your uploads, and the choices, each with its wait and
+the part it leads to. Adding a choice makes a new blank part, and the
+main button takes you to the next part that still needs writing.</li>
+<li><strong>Finish:</strong> fix any problems the editor has found, preview the story as
+a reader would, set a price (or keep it free), and publish.</li>
+</ol>
+<p>The <strong>Map</strong> shows the whole story as a graph, with each choice&#39;s wait, and
+highlights any part with a problem or that no choice leads to. Every part
+and media file can have a name that only you see, to keep a big story
+organised; readers only ever see the heading and text.</p>
+<p>Only you can edit or export your stories. Readers get a story to read, never
+your story file. Your work is saved as you type.</p>
+<h2>Trying it out</h2>
+<p>This is an early preview, so some things are simulated:</p>
+<ul>
+<li><strong>Waits are shortened to 3 seconds</strong> for testing. The story still shows
+each choice&#39;s real wait (&quot;Wait: 1 hour&quot;).</li>
+<li><strong>Accounts, published stories and libraries exist only in your browser.</strong>
+Signing in takes just a name, with no password, and other people can&#39;t
+see what you publish yet.</li>
+<li><strong>Payments are pretend:</strong> buying a story charges nothing.</li>
+<li><strong>Uploaded media</strong> only shows until you reload the page; the example
+story&#39;s media always works.</li>
+<li>The <strong>Action log</strong> at the bottom of the page lists what the site would do
+for real (save to the server, take a payment, send a notification) once
+those parts are built.</li>
+</ul>
+<p>A good first story is &quot;The Signal at Kestrel Station&quot; (9 parts, 4 endings):
+add it from Discover to read it, or open it under Write to see how it&#39;s
+built.</p>
+<h2>Story files</h2>
+<p>Stories can be exported as and opened from a <code>story.json</code> file. A story has
+parts (called nodes in the file), the choices between them, each with a
+wait in seconds, and a list of media files that parts refer to. There is
+exactly one start, at least one ending, and every part must be reachable
+from the start. The editor checks all of this as you write.</p>
+
+    </article>
+  </main>
+</body>
+</html>
