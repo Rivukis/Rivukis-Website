@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Pale dawn over the ice">
+  <defs>
+    <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3e4f7d"/>
+      <stop offset="0.6" stop-color="#e6a98f"/>
+      <stop offset="1" stop-color="#f7dcb4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#dawn)"/>
+  <circle cx="560" cy="330" r="46" fill="#fff1d2"/>
+  <path d="M0 330 Q220 310 420 330 T800 320 V450 H0 Z" fill="#f2f5fa"/>
+  <g fill="#6d7488">
+    <rect x="150" y="280" width="200" height="60" rx="6"/>
+    <rect x="360" y="295" width="110" height="45" rx="6"/>
+  </g>
+</svg>

@@ -1,0 +1,108 @@
+{
+  "formatVersion": 1,
+  "id": "the-signal",
+  "title": "The Signal at Kestrel Station",
+  "author": "Meanwhile Sample Stories",
+  "description": "You are the only one awake at a research station on the ice when the radio starts saying your name.",
+  "coverId": "img-station",
+  "media": [
+    {"id": "img-station", "type": "image", "src": "media/station.svg", "description": "Kestrel Station at night, a few windows lit against the snow.", "label": "Station at night (cover)"},
+    {"id": "anim-signal", "type": "animation", "src": "media/signal.svg", "description": "The station radio, its display pulsing with an incoming signal.", "label": "Radio pulsing"},
+    {"id": "img-array", "type": "image", "src": "media/array.svg", "description": "Three radio dishes in the snow, with footprints leading toward them.", "label": "Dishes with footprints"},
+    {"id": "img-dawn", "type": "image", "src": "media/dawn.svg", "description": "A pale dawn rising over the station.", "label": "Dawn over the station"},
+    {"id": "snd-static", "type": "audio", "src": "media/static.wav", "description": "Radio static with a faint repeating tone.", "label": "Static with tone"},
+    {"id": "snd-wind", "type": "audio", "src": "media/wind.wav", "description": "Wind moving across the ice.", "label": "Wind on the ice"}
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "kind": "start",
+      "label": "Opening: radio says your name",
+      "title": "2:14 a.m.",
+      "text": "The night shift at Kestrel Station is supposed to be quiet. Eleven people asleep, one generator humming, and you, alone in the radio room with a mug of coffee that went cold an hour ago.\n\nThen the radio clicks on by itself.\n\nUnder the static, a voice. Calm, close, and saying your name. Twice. Then nothing but a soft three-note tone, repeating.\n\nThe nearest other station is four hundred kilometres away.",
+      "visualId": "anim-signal",
+      "audioId": "snd-static"
+    },
+    {
+      "id": "waited",
+      "kind": "middle",
+      "label": "Waited: coordinates",
+      "title": "3:14 a.m.",
+      "text": "You don't move. You watch the display and count the tones until you lose count.\n\nExactly one hour after the first message, the voice comes back. It doesn't say your name this time. It reads out a string of numbers, slowly, the way you'd read them to someone writing them down.\n\nYou do write them down. When you check them against the station map, your pen stops.\n\nThe coordinates are for the antenna array, on the far side of the complex.",
+      "visualId": "anim-signal",
+      "audioId": "snd-static"
+    },
+    {
+      "id": "walked",
+      "kind": "middle",
+      "label": "Walked: footprints",
+      "title": "The long corridor",
+      "text": "You pull on your parka and take the connecting corridor toward the array. Halfway along, the lights flicker, and for a few seconds you walk in total darkness with one hand on the cold wall.\n\nAt the outer door you stop. The snow outside should be smooth; nobody goes out at night. But there is a line of footprints leading from the door toward the dishes.\n\nThey're your size. They're your boots.\n\nAnd they're fresh.",
+      "visualId": "img-array",
+      "audioId": "snd-wind"
+    },
+    {
+      "id": "dormitory",
+      "kind": "middle",
+      "label": "Dormitory: Osei's note",
+      "title": "An empty bunk",
+      "text": "Dr. Osei's bunk is empty. The blanket is folded and the sheets are cold, as if she got up hours ago.\n\nTaped to her locker is a note in her handwriting:\n\n\"If the radio says your name, don't answer it. Come and find me. — A.\"\n\nDown the corridor, faintly, the radio is still playing its three soft notes.",
+      "visualId": "img-station"
+    },
+    {
+      "id": "array",
+      "kind": "middle",
+      "label": "Array: meet Osei",
+      "title": "The array",
+      "text": "You find Dr. Osei under the largest dish, her gloves off despite the cold, adjusting the receiver by hand.\n\n\"You came,\" she says, not looking up. \"Good. I worked it out an hour ago. It's not coming from out there.\" She points at the sky, then at the station behind you. \"It's coming from here. From us. Tomorrow night.\"\n\nThe receiver crackles. Your own voice, slightly tired, says: \"If you can hear this, we need you to send it back.\"",
+      "visualId": "img-array",
+      "audioId": "snd-wind"
+    },
+    {
+      "id": "end-dawn",
+      "kind": "end",
+      "label": "Ending: never know (sleep)",
+      "title": "Morning",
+      "text": "You go back to your bunk and lie awake until the day crew arrives. In daylight, the radio is just a radio. The log shows no transmissions at all.\n\nYou keep the page of numbers folded in your pocket for the rest of the season. You never find out what they meant.\n\nSome nights, you're almost sure you can still hear three soft notes, very far away.",
+      "visualId": "img-dawn"
+    },
+    {
+      "id": "end-answer",
+      "kind": "end",
+      "label": "Ending: answer the radio",
+      "title": "The answer",
+      "text": "You pick up the handset and say, \"I'm here.\"\n\nThe static stops. In the silence, the voice speaks again, and this time you recognise it: it's yours, but older and very tired.\n\n\"I know,\" it says. \"I always answer. That's the problem.\"\n\nThe line goes dead. Across the station, every light goes out.",
+      "audioId": "snd-static"
+    },
+    {
+      "id": "end-reply",
+      "kind": "end",
+      "label": "Ending: send it back",
+      "title": "The reply",
+      "text": "It takes the two of you the rest of the night. Osei rewires the transmitter; you read the message into the microphone over and over until your voice is steady.\n\nAt 4:00 a.m. you send it. The tone stops.\n\nTomorrow night, at 2:14 a.m., you'll be sitting in the radio room with a cold mug of coffee, waiting to hear yourself.",
+      "visualId": "img-array"
+    },
+    {
+      "id": "end-dark",
+      "kind": "end",
+      "label": "Ending: cut the power",
+      "title": "Silence",
+      "text": "You find the junction box and pull the main breaker for the array. The dishes groan to a stop. The receiver goes quiet.\n\nOsei stares at you for a long moment. \"Then we'll never know,\" she says.\n\nYou walk back together through the dark, and neither of you looks behind you at the footprints in the snow.",
+      "visualId": "img-station",
+      "audioId": "snd-wind"
+    }
+  ],
+  "choices": [
+    {"id": "c-wait", "from": "start", "to": "waited", "label": "Wait by the radio to see if it repeats", "waitSeconds": 3600},
+    {"id": "c-walk", "from": "start", "to": "walked", "label": "Walk to the antenna array on the far side of the complex", "waitSeconds": 900},
+    {"id": "c-wake", "from": "start", "to": "dormitory", "label": "Go and wake Dr. Osei", "waitSeconds": 300},
+    {"id": "c-go-array", "from": "waited", "to": "array", "label": "Go to the array now", "waitSeconds": 900},
+    {"id": "c-sleep", "from": "waited", "to": "end-dawn", "label": "Go back to bed and wait for the day crew", "waitSeconds": 28800},
+    {"id": "c-follow", "from": "walked", "to": "array", "label": "Follow the footprints", "waitSeconds": 600},
+    {"id": "c-turn-back", "from": "walked", "to": "dormitory", "label": "Turn back and wake Dr. Osei", "waitSeconds": 900},
+    {"id": "c-search", "from": "dormitory", "to": "array", "label": "Search the station for her", "waitSeconds": 1800},
+    {"id": "c-answer", "from": "dormitory", "to": "end-answer", "label": "Ignore the note and answer the radio", "waitSeconds": 120},
+    {"id": "c-reply", "from": "array", "to": "end-reply", "label": "Help her send the message back", "waitSeconds": 2700},
+    {"id": "c-cut", "from": "array", "to": "end-dark", "label": "Cut the power to the array", "waitSeconds": 60}
+  ]
+}
